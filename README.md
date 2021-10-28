@@ -1,9 +1,9 @@
-# preact-lazyimg
+# preact-lazyimage
 > Lazy image loading made easy and simple for preact.
 
 ### Installation
 ```
-npm i preact-lazyimg
+npm i preact-lazyimage
 ```
 
 #### Ready to use; just replace!
@@ -21,7 +21,7 @@ npm i preact-lazyimg
 ```jsx
 import { h } from 'preact';
 
-import LazyImg from 'preact-lazyimg';
+import LazyImg from 'preact-lazyimage';
 
 const App = () => (
     <LazyImg style={{width: '40px', height: '40px'}} src="./icon.png"></LazyImg>
@@ -45,7 +45,7 @@ src={src} // Set source for image
 ```
 
 ### Multiple Image Loading
-> `preact-lazyimg` also supports "loading up" images in succession
+> `preact-lazyimage` also supports "loading up" images in succession
 
 ```jsx
 // image1.png -> image2.png -> image3.png
