@@ -1,0 +1,36 @@
+{
+  "name": "preact-lazyimg",
+  "version": "0.0.1",
+  "description": "Lazy image loading made easy and simple for preact.",
+  "main": "index.js",
+  "scripts": {
+    "examples": "preact watch --src examples"
+  },
+  "keywords": [
+    "lazy",
+    "lazyload",
+    "lazy loading",
+    "lazy image",
+    "lazyimg",
+    "preact"
+  ],
+  "author": "Wilson Nguyen",
+  "license": "MIT",
+  "devDependencies": {
+    "preact": "^10.x.x"
+  },
+  "peerDependencies": {
+    "preact": "*"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PotatoParser/preact-lazyimg.git"
+  },
+  "bugs": {
+    "url": "https://github.com/PotatoParser/preact-lazyimg/issues"
+  },
+  "homepage": "https://github.com/PotatoParser/preact-lazyimg#readme"
+}
