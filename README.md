@@ -30,7 +30,7 @@ const App = () => (
 render(<App/>, document.body);
 ```
 
-Looking for lazy loading other elements? Check out `preact-lazyload`
+Looking for lazy loading other elements? Check out [`preact-lazyload`](https://www.npmjs.com/package/preact-lazyload)
 
 ### Additional Properties
 ```jsx
