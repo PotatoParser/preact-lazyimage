@@ -1,87 +1,72 @@
 import { Component, createRef, h } from 'preact';
 
-function waitForEvent(target, event) {
-	return new Promise(resolve => {
-		target.addEventListener(event, resolve, {
-			once: true
-		});
-	})
-}
-
 class LazyImg extends Component {
-	static observer = new IntersectionObserver((entries, observer) => {
+	state = { show: false, timer: null }
+	ref = createRef();
+	observer = new IntersectionObserver((entries, observer) => {
 		entries.forEach(entry => {
 			const { target } = entry;
 			if (entry.isIntersecting) {
-				if (target.src === '') target.dispatchEvent(new CustomEvent('startlazy'));
+				if (!this.state.show) {
+					if (this.props.delay) {
+						clearTimeout(this.state.timer);
+						const timer = setTimeout(() => {
+							this.setState({ show: true });
+							if (this.props.onLoad) this.props.onLoad(this.ref.current);
+						}, this.props.delay);
+						this.setState({ timer });
+					}
+					else {
+						this.setState({ show: true });
+						if (this.props.onLoad) this.props.onLoad(this.ref.current);
+					}
+				}
 			} else {
-				if (target.src !== '') target.dispatchEvent(new CustomEvent('stoplazy'))
+				if (this.state.show) {
+					clearTimeout(this.state.timer);
+					this.setState({ show: false });
+					if (this.props.onUnload) this.props.onUnload(this.ref.current);
+				}
 			}
 		});
 	});
 
-	ref = createRef();
+	observe() {
+		this.observer.observe(this.ref.current);
+	}
+
+	unobserve() {
+		this.observer.unobserve(this.ref.current);
+	}
 
 	componentDidMount() {
-		let { startLazyLoad, stopLazyLoad, noCache, src } = this.props;
-
-		this.startLazyLoad = startLazyLoad;
-		this.stopLazyLoad = stopLazyLoad;
-
-		if (!(src instanceof Array)) src = [src];
-
-		if (!this.startLazyLoad) this.startLazyLoad = e => {
-			const { target } = e;
-			if (src.length === 1) target.src = src + (noCache ? `?${performance.now()}` : '');
-			else {
-				(async () => {
-					for (const image of src) {
-						target.src = image + (noCache ? `?${performance.now()}` : '');
-						await waitForEvent(target, 'load');
-					};
-				})();
-			}
-		}
-
-		if (!this.stopLazyLoad) this.stopLazyLoad = e => {
-			const { target } = e;
-			target.removeAttribute('src');
-		}
-		
-		this.ref.current.addEventListener('startlazy', this.startLazyLoad);
-		this.ref.current.addEventListener('stoplazy', this.stopLazyLoad);
-		LazyImg.observer.observe(this.ref.current);
+		this.observe();
 	}
 
 	componentWillUnmount() {
-		this.ref.current.removeEventListener('startlazy', this.startLazyLoad);
-		this.ref.current.removeEventListener('stoplazy', this.stopLazyLoad);
-		LazyImg.observer.unobserve(this.ref.current);
+		this.unobserve();
+		clearTimeout(this.state.timer);
+		this.setState({ show: false });
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		LazyImg.observer.unobserve(this.ref.current);
-		if (this.props.startLazyLoad && prevProps.startLazyLoad && this.props.startLazyLoad !== prevProps.startLazyLoad) {
-			this.ref.current.removeEventListener('startlazy', this.startLazyLoad);
-			this.startLazyLoad = this.props.startLazyLoad;
-			this.ref.current.addEventListener('startlazy', this.startLazyLoad);
-		}
-		if (this.props.stopLazyLoad && prevProps.stopLazyLoad && this.props.stopLazyLoad !== prevProps.stopLazyLoad) {
-			this.ref.current.removeEventListener('stoplazy', this.stopLazyLoad);
-			this.stopLazyLoad = this.props.stopLazyLoad;
-			this.ref.current.addEventListener('stoplazy', this.stopLazyLoad);
-		}
-		LazyImg.observer.observe(this.ref.current);
-	}
-
-	render({ src, ...props }) {
+	render({ src, delay, cache, placeholder, onLoad, onUnload, ...props }, { show }) {
 		return (
 			<img
 				ref={this.ref}
+				src={show ? (!cache ? `${src}?q=${performance.now()}` : src) : placeholder }
 				{...props}
 			></img>
 		);
 	};
 }
+
+LazyImg.defaultProps = {
+	placeholder: '',
+	cache: true,
+	delay: 0,
+	src: '',
+	onLoad: false,
+	onUnload: false
+};
 
 export default LazyImg;

@@ -6,7 +6,7 @@
 npm i preact-lazyimage
 ```
 
-#### Ready to use; just replace!
+#### Drop In Replacement!
 ```jsx
 // Old
 <img src="./image"></img>
@@ -23,31 +23,21 @@ import { h } from 'preact';
 
 import LazyImg from 'preact-lazyimage';
 
-const App = () => (
-    <LazyImg style={{width: '40px', height: '40px'}} src="./icon.png"></LazyImg>
-);
+const App = () => <LazyImg style={{width: '40px', height: '40px'}} src="./icon.png"></LazyImg>;
 
 render(<App/>, document.body);
 ```
 
 Looking for lazy loading other elements? Check out [`preact-lazyload`](https://www.npmjs.com/package/preact-lazyload)
 
-### Additional Properties
+### Properties
 ```jsx
 <LazyImg
-
-startLazyLoad={e => {}} // Change what happens when element goes on screen
-stopLazyLoad={e => {}} // Change what happens when element goes off screen
-noCache={false} // Enable/Disable caching of images; false by default
-src={src} // Set source for image
-
+  onLoad={imgElement => {}} // Triggered when image loads
+  onUnload={imgElement => {}} // Triggered when image unloads
+  delay={0} // Delay lazy loading in milliseconds
+  cache={true} // Enable/Disable caching of images; true by default
+  src={src} // Set source for image
+  {...props} // Remaining properties are applied onto the image element
 ></LazyImg>
-```
-
-### Multiple Image Loading
-> `preact-lazyimage` also supports "loading up" images in succession
-
-```jsx
-// image1.png -> image2.png -> image3.png
-<LazyImg src={["./image1.png", "./image2.png", "./image3.png", ...]}></LazyImg>
 ```
