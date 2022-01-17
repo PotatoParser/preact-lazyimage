@@ -1,6 +1,6 @@
 {
   "name": "preact-lazyimage",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Lazy image loading made easy and simple for preact.",
   "main": "index.js",
   "scripts": {
