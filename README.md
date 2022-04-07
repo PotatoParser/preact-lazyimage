@@ -33,14 +33,14 @@ Looking for lazy loading other elements? Check out [`preact-lazyload`](https://w
 ### Properties
 ```jsx
 <LazyImg
-  onLoad={imgElement => {}}		// Triggered when image loads
-  onUnload={imgElement => {}}	// Triggered when image unloads
-  delay={0}			// Delay lazy loading in milliseconds
-  cache={true}		// Enable/Disable caching of images; true by default
-  src={src}			// Set source for image
-  legacy={false}	// Use getBoundingClientRect instead of IntersectionObservers
-  preloadWidth={0}	// Preload the images with an offset width, legacy must be set to `true`
-  preloadHeight={0}	// Preload the images with an offset height, legacy must be set to `true`
-  {...props}	// Remaining properties are applied onto the image element
+  onLoad={imgElement => {}}   // Triggered when image loads
+  onUnload={imgElement => {}} // Triggered when image unloads
+  delay={0}                   // Delay lazy loading in milliseconds
+  cache={true}                // Enable/Disable caching of images; true by default
+  src={src}                   // Set source for image
+  legacy={false}              // Use getBoundingClientRect instead of IntersectionObservers
+  preloadWidth={0}            // Preload the images with an offset width, legacy must be set to `true`
+  preloadHeight={0}           // Preload the images with an offset height, legacy must be set to `true`
+  {...props}                  // Remaining properties are applied onto the image element
 ></LazyImg>
 ```
